@@ -87,13 +87,13 @@ class KokoroV1(BaseModelBackend):
 
         if lang_code not in self._pipelines:
             logger.info(f"Creating new pipeline for language code: {lang_code}")
-            lang_en = 'a'
             def en_callable(text):
                 if text == 'Kokoro':
                     return 'kˈOkəɹO'
                 elif text == 'Sol':
                     return 'sˈOl'
-                return next(self._pipelines[lang_en](text)).phonemes
+                
+                return next(self._pipelines['a'](text)).phonemes
 
             self._pipelines[lang_code] = KPipeline(
                 lang_code=lang_code, model=self._model, device=self._device, repo_id=settings.repo_id,
