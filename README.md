@@ -189,7 +189,7 @@ python examples/assorted_checks/test_voices/test_all_voices.py # Test all availa
 <details>
 <summary>Voice Combination</summary>
 
-- Weighted voice combinations using ratios (e.g., "af_bella(2)+af_heart(1)" for 67%/33% mix)
+- Weighted voice combinations using ratios (e.g., "af_bella(2)+zf_094(1)" for 67%/33% mix)
 - Ratios are automatically normalized to sum to 100%
 - Available through any endpoint by adding weights in parentheses
 - Saves generated voicepacks for future use
@@ -526,7 +526,7 @@ response = requests.post(
     "http://localhost:8880/v1/audio/speech",
     json={
         "input": "Hello world!",
-        "voice": "af_heart",
+        "voice": "zf_094",
         "response_format": "pcm",
         "normalization_options":
         {

@@ -34,7 +34,7 @@ def measure_first_token(
             json={
                 "model": "kokoro",
                 "input": text,
-                "voice": "af_heart",
+                "voice": "zf_094",
                 "response_format": "wav",
                 "stream": False,
             },

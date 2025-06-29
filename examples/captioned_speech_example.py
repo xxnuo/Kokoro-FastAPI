@@ -10,7 +10,7 @@ SCRIPT_DIR = Path(__file__).absolute().parent
 
 def generate_captioned_speech(
     text: str,
-    voice: str = "af_heart",
+    voice: str = "zf_094",
     speed: float = 1.0,
     response_format: str = "mp3"
 ) -> Tuple[Optional[bytes], Optional[List[Dict]]]:
