@@ -17,8 +17,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${LZC_SERVICE_ID}-kokoro.rule=Host(`kokoro-ai`)"
-    image: registry.lazycat.cloud/x/lzc-aipod-kokoro:latest
-    user: "1001:1001"  # Ensure container runs as UID 1001 (appuser)
+    image: registry.lazycat.cloud/x/lzc-aipod-kokoro:df95073
     expose:
       - "8880"
     healthcheck:
