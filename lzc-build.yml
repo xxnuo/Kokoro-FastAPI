@@ -1,0 +1,5 @@
+manifest: ./lzc-manifest.yml
+pkgout: ./dist/
+icon: ./ui/GUIBanner.png
+ai-pod-service: ./ai
+contentdir: ./content
