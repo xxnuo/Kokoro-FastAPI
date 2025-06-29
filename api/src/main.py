@@ -149,11 +149,5 @@ async def test_endpoint():
     return {"status": "ok"}
 
 
-@app.get("/")
-async def root():
-    """Root endpoint to redirect to web player"""
-    return RedirectResponse(url="/web/")
-
-
 if __name__ == "__main__":
     uvicorn.run("api.src.main:app", host=settings.host, port=settings.port, reload=True)
