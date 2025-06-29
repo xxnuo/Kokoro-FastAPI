@@ -1,8 +1,3 @@
-# Magic
-from .mypatch import mypatch
-
-mypatch()
-
 """
 FastAPI OpenAI Compatible API
 """
