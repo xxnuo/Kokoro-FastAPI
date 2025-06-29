@@ -1,9 +1,9 @@
 {
-    auto_https off
-    http_port 80
-    https_port 0
+	auto_https off
+	http_port 80
+	https_port 0
 }
 
 :80 {
-    redir https://tts-ai.{$LAZYCAT_BOX_DOMAIN}/web/ permanent
+	redir https://tts-ai.{$LAZYCAT_BOX_DOMAIN}/web/ permanent
 }

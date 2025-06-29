@@ -23,22 +23,13 @@ locales:
     description: "複数の言語をサポートするテキストから音声への変換エンジン"
 application:
   subdomain: tts
-  multi_instance: true
   application:
     gpu_accel: true
   routes:
-    - /=http://caddy:80
-
+      - /=http://caddy:80
   health_check:
-    test_url: http://127.0.0.1/health
+    test_url: https://tts-ai.{{ .S.BoxDomain }}/health
     start_period: 1m
-
-  upstreams:
-    - location: /health
-      backend: https://tts-ai.{{ .S.BoxDomain }}/health
-      trim_url_suffix: /
-      use_backend_host: true
-      dump_http_headers_when_5xx: true
 
 services:
   caddy:
