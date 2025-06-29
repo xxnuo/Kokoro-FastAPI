@@ -25,9 +25,13 @@ class Settings(BaseSettings):
         False  # Whether to allow saving combined voices locally
     )
 
+    # Model Settings
+    repo_id: str = "hexgrad/Kokoro-82M-v1.1-zh"
+    kokoro_file: str = "v1_1/kokoro-v1_1-zh.pth"
+
     # Container absolute paths
     model_dir: str = "/app/api/src/models"  # Absolute path in container
-    voices_dir: str = "/app/api/src/voices/v1_0"  # Absolute path in container
+    voices_dir: str = "/app/api/src/voices/v1_1"  # Absolute path in container
 
     # Audio Settings
     sample_rate: int = 24000
