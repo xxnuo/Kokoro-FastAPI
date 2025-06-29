@@ -1,4 +1,4 @@
-# Fix pydub jieba warnings
+# Magic
 from .mypatch import mypatch
 
 mypatch()
