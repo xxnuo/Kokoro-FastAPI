@@ -45,11 +45,13 @@ dependencies = [
 [project.optional-dependencies]
 gpu = [
     # "torch==2.6.0+cu124",
-    # For jetson xtts
-    "torch>=2.2.0",
+    # For Jetson
+    "torch",
+    # "onnxruntime-gpu", # TODO: add onnxruntime-gpu
 ]
 cpu = [
-    "torch==2.6.0",
+    "torch",
+    "onnxruntime",
 ]
 test = [
     "pytest>=8.3.5",
