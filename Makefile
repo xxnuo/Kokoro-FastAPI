@@ -98,6 +98,7 @@ push-ui-amd: build-ui-amd
 	docker push $(DOCKER_REGISTRY)-ui-amd:latest
 
 lzc-build:
+	mkdir -p dist
 	lzc-cli project build
 
 lzc-install: lzc-build

@@ -11,6 +11,7 @@ import torch
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from loguru import logger
 
 from .core.config import settings
@@ -146,6 +147,12 @@ async def health_check():
 async def test_endpoint():
     """Test endpoint to verify routing"""
     return {"status": "ok"}
+
+
+@app.get("/")
+async def root():
+    """Root endpoint to redirect to web player"""
+    return RedirectResponse(url="/web/")
 
 
 if __name__ == "__main__":

@@ -23,9 +23,6 @@ locales:
     description: "複数の言語をサポートするテキストから音声への変換エンジン"
 application:
   subdomain: tts
-  routes:
-    - /=http://127.0.0.1/
-
   health_check:
     test_url: http://127.0.0.1/health
     start_period: 5m
