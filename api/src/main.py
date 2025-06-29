@@ -103,7 +103,7 @@ async def lifespan(app: FastAPI):
         startup_msg += "\n\nWeb Player: disabled"
 
     startup_msg += f"\n{boundary}\n"
-    logger.info(startup_msg)
+    logger.warning(startup_msg)
 
     yield
 
