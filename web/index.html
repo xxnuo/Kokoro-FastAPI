@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FastKoko: Kokoro-based TTS</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>TTS</title>
+    <link rel="icon" type="image/png" href="icon.png">
     <link rel="stylesheet" href="styles/base.css">
     <link rel="stylesheet" href="styles/layout.css">
     <link rel="stylesheet" href="styles/header.css">
@@ -17,7 +14,6 @@
     <link rel="stylesheet" href="styles/badges.css">
     <link rel="stylesheet" href="styles/controls.css">
     <script src="./siriwave.js"></script>
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 <body>
     <div class="sun">
@@ -26,18 +22,15 @@
     <div class="overlay"></div>
     <div class="grid-overlay"></div>
     <div class="badges-container">
-        <a href="https://huggingface.co/hexgrad/Kokoro-82M" target="_blank" class="badge">
-            <img src="https://img.shields.io/badge/Powered--by--HexGrad%2FKokoro--82M-black?logo=huggingface&logoColor=white&labelColor=black&style=for-the-badge" alt="HexGrad/Kokoro-82M on Hugging Face">
+        <a href="/docs" target="_blank" class="badge">
+            API Docs
         </a>
+
         <div class="logo-container">
-            <h1>FastKoko</h1>
-            <div class="cup">
-                <div class="handle"></div>
-                <div class="steam"></div>
-            </div>
+            <h1>TTS</h1>
         </div>
         <div class="badge">
-            <a class="github-button" href="https://github.com/remsky/Kokoro-FastAPI" data-color-scheme="dark" data-size="large" data-show-count="true" aria-label="Star remsky/Kokoro-FastAPI on GitHub">Kokoro-FastAPI</a>
+            <a href="https://huggingface.co/hexgrad/Kokoro-82M" data-color-scheme="dark" data-size="large" target="_blank">Kokoro</a>
         </div>
     </div>
     <div class="container">
@@ -120,8 +113,8 @@
                             Auto-play
                         </label>
                         <select id="format-select" class="format-select">
-                            <option value="mp3">MP3</option>
                             <option value="wav">WAV</option>
+                            <option value="mp3">MP3</option>
                             <option value="pcm">PCM</option>
                         </select>
                     </div>
