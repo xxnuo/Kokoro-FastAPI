@@ -67,7 +67,7 @@ ENV PYTHONUNBUFFERED=1 \
     UV_LINK_MODE=copy \
     USE_GPU=true 
 
-ENV DOWNLOAD_MODEL=true
+ENV DOWNLOAD_MODEL=false
 # Download model if enabled
 RUN if [ "$DOWNLOAD_MODEL" = "true" ]; then \
     python download_model.py --output api/src/models/v1_1-zh; \
