@@ -8,7 +8,7 @@ def mypatch():
     # Fix pydub
     when(
         pydub.utils,
-        (299, r"for token in extra_info[stream['index']]:"),
+        298,
     ).goto((318, r"return info")).do(
         r"""
 for token in extra_info[stream['index']]:
@@ -36,7 +36,7 @@ for token in extra_info[stream['index']]:
     # Fix jieba
     when(
         jieba,
-        (44, r're_skip_default = re.compile("(\r\n|\s)", re.U)'),
+        43,
     ).goto((49, r"def setLogLevel(log_level):")).do(
         r"""
 re_han_default = re.compile(r"([\u4E00-\u9FD5a-zA-Z0-9+#&\._%\-]+)", re.U)
@@ -47,7 +47,7 @@ re_skip_default = re.compile(r"(\r\n|\s)", re.U)
     # Fix jieba.posseg
     when(
         jieba.posseg,
-        (16, r're_skip_detail = re.compile("([\.0-9]+|[a-zA-Z0-9]+)")'),
+        15,
     ).goto((20, r're_eng = re.compile("[a-zA-Z0-9]+")')).do(
         r"""
 re_skip_detail = re.compile(r"([\.0-9]+|[a-zA-Z0-9]+)")
