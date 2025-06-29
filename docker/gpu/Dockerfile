@@ -1,5 +1,6 @@
 # FROM --platform=$BUILDPLATFORM nvidia/cuda:12.8.0-cudnn-runtime-ubuntu24.04
 # FROM --platform=$BUILDPLATFORM registry.lazycat.cloud/x/xtts:r36.3.0
+
 FROM registry.lazycat.cloud/x/vllm:r36.4-cu128-24.04
 
 # Set non-interactive frontend
@@ -35,16 +36,17 @@ RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
     mv /root/.local/bin/uv /usr/local/bin/ && \
     mv /root/.local/bin/uvx /usr/local/bin/ 
 
-# Create non-root user and set up directories and permissions
-RUN useradd -m -u 1001 appuser && \
-    mkdir -p /app/api/src/models/v1_1-zh && \
-    chown -R appuser:appuser /app
+RUN mkdir -p /root/.config/uv && \
+    printf '%s\n' \
+    '[[index]]' \
+    'url = "http://192.168.1.239:10608/simple"' \
+    'default = true' \
+    > /root/.config/uv/uv.toml
 
-USER appuser
 WORKDIR /app
 
 # Copy dependency files
-COPY --chown=appuser:appuser pyproject.toml ./pyproject.toml
+COPY pyproject.toml ./pyproject.toml
 
 ENV PHONEMIZER_ESPEAK_PATH=/usr/bin \
     PHONEMIZER_ESPEAK_DATA=/usr/share/espeak-ng-data \
@@ -55,12 +57,12 @@ ENV UV_PROJECT_ENVIRONMENT="/usr/local"
 
 # Install dependencies with GPU extras (using cache mounts)
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --inexact --extra gpu
+    uv sync --no-install-project --inexact --extra gpu
 
 # Copy project files including models
-COPY --chown=appuser:appuser api ./api
-COPY --chown=appuser:appuser web ./web
-COPY --chown=appuser:appuser docker/scripts/ ./
+COPY api ./api
+COPY web ./web
+COPY docker/scripts/ ./
 RUN chmod +x ./entrypoint.sh
 
 
