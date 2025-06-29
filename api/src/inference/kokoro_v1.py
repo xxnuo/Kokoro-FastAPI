@@ -48,7 +48,7 @@ class KokoroV1(BaseModelBackend):
             logger.info(f"Model path: {model_path}")
 
             # Load model and let KModel handle device mapping
-            self._model = KModel(config=config_path, model=model_path).eval()
+            self._model = KModel(config=config_path, model=model_path, repo_id=settings.repo_id).eval()
             # For MPS, manually move ISTFT layers to CPU while keeping rest on MPS
             if self._device == "mps":
                 logger.info(
@@ -77,10 +77,19 @@ class KokoroV1(BaseModelBackend):
         if not self._model:
             raise RuntimeError("Model not loaded")
 
+        # When Chinese is mixed with English, it should be done like this.
+        if 'a' not in self._pipelines and lang_code == 'z':
+            lang_en = 'a'
+            logger.info(f"Creating new pipeline for language code: {lang_en}")
+            self._pipelines[lang_en] = KPipeline(
+                lang_code=lang_en, model=False, repo_id=settings.repo_id
+            )
+
         if lang_code not in self._pipelines:
             logger.info(f"Creating new pipeline for language code: {lang_code}")
             self._pipelines[lang_code] = KPipeline(
-                lang_code=lang_code, model=self._model, device=self._device
+                lang_code=lang_code, model=self._model, device=self._device, repo_id=settings.repo_id,
+                en_callable=self.en_callable
             )
         return self._pipelines[lang_code]
 
