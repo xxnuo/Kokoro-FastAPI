@@ -1,3 +1,8 @@
+# Fix pydub jieba warnings
+from .mypatch import mypatch
+
+mypatch()
+
 """
 FastAPI OpenAI Compatible API
 """
