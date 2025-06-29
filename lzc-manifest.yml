@@ -1,0 +1,38 @@
+name: 语音合成引擎
+package: cloud.lazycat.aipod.tts
+version: 1.0.0
+description: 支持多种语言的快速语音合成引擎
+license: https://choosealicense.com/licenses/mit/
+homepage:
+author: x
+locales:
+  zh:
+    name: "语音合成引擎"
+    description: "支持多种语言的快速语音合成引擎"
+  zh_CN:
+    name: "语音合成引擎"
+    description: "支持多种语言的快速语音合成引擎"
+  en:
+    name: "Text to Speech Engine"
+    description: "Fast Text to Speech Engine with support for multiple languages"
+  ja:
+    name: "テキストから音声への変換エンジン"
+    description: "複数の言語をサポートするテキストから音声への変換エンジン"
+  ja_JP:
+    name: "テキストから音声への変換エンジン"
+    description: "複数の言語をサポートするテキストから音声への変換エンジン"
+application:
+  subdomain: tts
+  routes:
+    - /=http://127.0.0.1/
+
+  health_check:
+    test_url: http://127.0.0.1/health
+    start_period: 5m
+
+  upstreams:
+    - location: /
+      backend: https://tts-ai.{{ .S.BoxDomain }}/
+      trim_url_suffix: /
+      use_backend_host: true
+      dump_http_headers_when_5xx: true
