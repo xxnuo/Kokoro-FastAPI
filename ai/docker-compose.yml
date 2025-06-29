@@ -1,0 +1,46 @@
+x-logging: &default-logging
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "3"
+      compress: "true"
+services:
+  app:
+    <<: *default-logging
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${LZC_SERVICE_ID}-kokoro.rule=Host(`kokoro-ai`)"
+    image: registry.lazycat.cloud/x/lzc-aipod-kokoro:latest
+    user: "1001:1001"  # Ensure container runs as UID 1001 (appuser)
+    expose:
+      - "8880"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8880/health" ]
+      interval: 30s
+      timeout: 5s
+      retries: 100
+      start_period: 1s
+    environment:
+      - PYTHONPATH=/app:/app/api
+      - USE_GPU=true
+      - PYTHONUNBUFFERED=1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  # # Gradio UI service
+  # ui:
+  #   image: registry.lazycat.cloud/x/lzc-aipod-kokoro-ui:latest
+  #   ports:
+  #     - "7860:7860"
+  #   environment:
+  #     - GRADIO_WATCH=1  # Enable hot reloading
+  #     - PYTHONUNBUFFERED=1  # Ensure Python output is not buffered
+  #     - DISABLE_LOCAL_SAVING=false  # Set to 'true' to disable local saving and hide file view
+  #     - API_HOST=app  # Set TTS service URL
+  #     - API_PORT=8880  # Set TTS service PORT
