@@ -40,14 +40,6 @@ build: sync-to-gpu
         --build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
         --build-arg "NO_PROXY=localhost,192.168.1.200,registry.lazycat.cloud" \
 		--shm-size=8g \
-		--volume /tmp/argus_socket:/tmp/argus_socket --volume /etc/enctune.conf:/etc/enctune.conf \
-		--volume /etc/nv_tegra_release:/etc/nv_tegra_release --volume /tmp/nv_jetson_model:/tmp/nv_jetson_model \
-		--volume /var/run/dbus:/var/run/dbus --volume /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket \
-		--volume /var/run/docker.sock:/var/run/docker.sock \
-		-v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro \
-		--device /dev/snd -e PULSE_SERVER=unix:/run/user/1000/pulse/native -v /run/user/1000/pulse:/run/user/1000/pulse \
-		--device /dev/bus/usb --device /dev/i2c-0 --device /dev/i2c-1 --device /dev/i2c-2 --device /dev/i2c-3 --device /dev/i2c-4 \
-		--device /dev/i2c-5 --device /dev/i2c-6 --device /dev/i2c-7 --device /dev/i2c-8 -v /run/jtop.sock:/run/jtop.sock \
 		."
 
 build-ui-arm: sync-to-gpu
@@ -80,14 +72,6 @@ test: build
 		--name lzc-aipod-kokoro \
 		--network host \
 		--shm-size=8g \
-		--volume /tmp/argus_socket:/tmp/argus_socket --volume /etc/enctune.conf:/etc/enctune.conf \
-		--volume /etc/nv_tegra_release:/etc/nv_tegra_release --volume /tmp/nv_jetson_model:/tmp/nv_jetson_model \
-		--volume /var/run/dbus:/var/run/dbus --volume /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket \
-		--volume /var/run/docker.sock:/var/run/docker.sock \
-		-v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro \
-		--device /dev/snd -e PULSE_SERVER=unix:/run/user/1000/pulse/native -v /run/user/1000/pulse:/run/user/1000/pulse \
-		--device /dev/bus/usb --device /dev/i2c-0 --device /dev/i2c-1 --device /dev/i2c-2 --device /dev/i2c-3 --device /dev/i2c-4 \
-		--device /dev/i2c-5 --device /dev/i2c-6 --device /dev/i2c-7 --device /dev/i2c-8 -v /run/jtop.sock:/run/jtop.sock \
 		$(DOCKER_REGISTRY):$(VERSION)"
 
 inspect: build
@@ -97,14 +81,6 @@ inspect: build
 		--name lzc-aipod-kokoro \
 		--network host \
 		--shm-size=8g \
-		--volume /tmp/argus_socket:/tmp/argus_socket --volume /etc/enctune.conf:/etc/enctune.conf \
-		--volume /etc/nv_tegra_release:/etc/nv_tegra_release --volume /tmp/nv_jetson_model:/tmp/nv_jetson_model \
-		--volume /var/run/dbus:/var/run/dbus --volume /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket \
-		--volume /var/run/docker.sock:/var/run/docker.sock \
-		-v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro \
-		--device /dev/snd -e PULSE_SERVER=unix:/run/user/1000/pulse/native -v /run/user/1000/pulse:/run/user/1000/pulse \
-		--device /dev/bus/usb --device /dev/i2c-0 --device /dev/i2c-1 --device /dev/i2c-2 --device /dev/i2c-3 --device /dev/i2c-4 \
-		--device /dev/i2c-5 --device /dev/i2c-6 --device /dev/i2c-7 --device /dev/i2c-8 -v /run/jtop.sock:/run/jtop.sock \
 		$(DOCKER_REGISTRY):$(VERSION) bash"
 
 push: build
