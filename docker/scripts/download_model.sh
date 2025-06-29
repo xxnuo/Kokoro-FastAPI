@@ -65,12 +65,12 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-MODEL_DIR="$PROJECT_ROOT/api/src/models/v1_0"
+MODEL_DIR="$PROJECT_ROOT/api/src/models/v1_1-zh"
 echo "Model directory: $MODEL_DIR"
 mkdir -p "$MODEL_DIR"
 
 # Define file paths
-MODEL_FILE="kokoro-v1_0.pth"
+MODEL_FILE="kokoro-v1_1-zh.pth"
 CONFIG_FILE="config.json"
 MODEL_PATH="$MODEL_DIR/$MODEL_FILE"
 CONFIG_PATH="$MODEL_DIR/$CONFIG_FILE"
