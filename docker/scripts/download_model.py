@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download and prepare Kokoro v1.0 model."""
+"""Download and prepare Kokoro v1.1-zh model."""
 
 import json
 import os
@@ -50,7 +50,7 @@ def download_model(output_dir: str) -> None:
         os.makedirs(output_dir, exist_ok=True)
 
         # Define file paths
-        model_file = "kokoro-v1_0.pth"
+        model_file = "kokoro-v1_1-zh.pth"
         config_file = "config.json"
         model_path = os.path.join(output_dir, model_file)
         config_path = os.path.join(output_dir, config_file)
@@ -60,7 +60,7 @@ def download_model(output_dir: str) -> None:
             logger.info("Model files already exist and are valid")
             return
 
-        logger.info("Downloading Kokoro v1.0 model files")
+        logger.info("Downloading Kokoro v1.1-zh model files")
 
         # GitHub release URLs (to be updated with v0.2.0 release)
         base_url = "https://github.com/remsky/Kokoro-FastAPI/releases/download/v0.1.4"
@@ -89,7 +89,7 @@ def main():
     """Main entry point."""
     import argparse
 
-    parser = argparse.ArgumentParser(description="Download Kokoro v1.0 model")
+    parser = argparse.ArgumentParser(description="Download Kokoro v1.1-zh model")
     parser.add_argument(
         "--output", required=True, help="Output directory for model files"
     )

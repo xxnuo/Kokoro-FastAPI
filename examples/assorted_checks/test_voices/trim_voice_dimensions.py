@@ -66,7 +66,7 @@ def main():
     # Get the project root directory
     current_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
-    voices_dir = os.path.join(project_root, "api", "src", "voices", "v1_0")
+    voices_dir = os.path.join(project_root, "api", "src", "voices", "v1_1-zh")
     
     logger.info(f"Processing voices in: {voices_dir}")
     

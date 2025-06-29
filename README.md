@@ -66,7 +66,7 @@ docker run --gpus all -p 8880:8880 ghcr.io/remsky/kokoro-fastapi-gpu:latest  #NV
         # MPS (Apple's GPU acceleration) support is planned but not yet available.
 
         # Models will auto-download, but if needed you can manually download:
-        python docker/scripts/download_model.py --output api/src/models/v1_0
+        python docker/scripts/download_model.py --output api/src/models/v1_1-zh
 
         # Or run directly via UV:
         ./start-gpu.sh  # For GPU support
