@@ -36,6 +36,29 @@ build:
         --build-arg "NO_PROXY=localhost,192.168.1.200,registry.lazycat.cloud" \
 		."
 
+build-ui-arm:
+	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
+		docker build \
+	    -f ui/Dockerfile \
+	    -t $(DOCKER_REGISTRY)-ui-arm:$(VERSION) \
+	    -t $(DOCKER_REGISTRY)-ui-arm:latest \
+        --network host \
+        --build-arg "HTTP_PROXY=$(ENV_PROXY)" \
+        --build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
+        --build-arg "NO_PROXY=localhost,192.168.1.200,registry.lazycat.cloud" \
+		."
+
+build-ui-amd:
+	docker build \
+	    -f ui/Dockerfile \
+	    -t $(DOCKER_REGISTRY)-ui-amd:$(VERSION) \
+	    -t $(DOCKER_REGISTRY)-ui-amd:latest \
+        --network host \
+        --build-arg "HTTP_PROXY=$(ENV_PROXY)" \
+        --build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
+        --build-arg "NO_PROXY=localhost,192.168.1.200,registry.lazycat.cloud" \
+		.
+
 test: build
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
 		docker run -it --rm --gpus all --name lzc-aipod-kokoro --network host -v ./output:/app/output $(DOCKER_REGISTRY):$(VERSION)"
@@ -48,6 +71,15 @@ push: build
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
 		docker push $(DOCKER_REGISTRY):$(VERSION) && \
 		docker push $(DOCKER_REGISTRY):latest"
+
+push-ui-arm: build-ui-arm
+	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
+		docker push $(DOCKER_REGISTRY)-ui-arm:$(VERSION) && \
+		docker push $(DOCKER_REGISTRY)-ui-arm:latest"
+
+push-ui-amd: build-ui-amd
+	docker push $(DOCKER_REGISTRY)-ui-amd:$(VERSION) && \
+	docker push $(DOCKER_REGISTRY)-ui-amd:latest
 
 lzc-build:
 	rm -rf content

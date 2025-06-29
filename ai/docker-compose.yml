@@ -5,6 +5,12 @@ x-logging: &default-logging
       max-size: "10m"
       max-file: "3"
       compress: "true"
+
+networks:
+  default:
+    external: true
+    name: traefik-shared-network
+
 services:
   app:
     <<: *default-logging
