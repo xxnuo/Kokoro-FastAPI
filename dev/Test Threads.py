@@ -39,7 +39,7 @@ def setup_args():
     parser.add_argument(
         "--iterations", type=int, default=5, help="Number of iterations per thread"
     )
-    parser.add_argument("--voice", default="af_heart", help="Voice to use for TTS")
+    parser.add_argument("--voice", default="zf_094", help="Voice to use for TTS")
     parser.add_argument(
         "--output-dir",
         default="./tts_test_output",

@@ -31,7 +31,7 @@ response = requests.post(
     json={
         "model": "kokoro",
         "input": text,
-        "voice": "af_heart+af_sky",
+        "voice": "zf_094+af_sky",
         "speed": 1.0,
         "response_format": Type,
         "stream": True,
@@ -72,7 +72,7 @@ response = requests.post(
     json={
         "model": "kokoro",
         "input": text,
-        "voice": "af_heart+af_sky",
+        "voice": "zf_094+af_sky",
         "speed": 1.0,
         "response_format": Type,
         "stream": False,
