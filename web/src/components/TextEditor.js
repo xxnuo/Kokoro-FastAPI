@@ -31,7 +31,9 @@ export default class TextEditor {
                     <textarea
                         class="page-content"
                         placeholder="Enter text to convert to speech..."
-                    ></textarea>
+                        
+                    >如无必要，勿增实体。
+Entities should not be multiplied unnecessarily.</textarea>
                     <div class="editor-footer">
                         <div class="file-controls">
                             <input type="file" class="file-input" accept=".txt" style="display: none;">

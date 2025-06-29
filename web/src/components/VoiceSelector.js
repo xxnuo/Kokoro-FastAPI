@@ -154,6 +154,14 @@ export class VoiceSelector {
         try {
             await this.voiceService.loadVoices();
             this.renderVoiceOptions(this.voiceService.getAvailableVoices());
+            
+            const defaultVoice = 'zf_044';
+            if (this.voiceService.getAvailableVoices().includes(defaultVoice) && 
+                !this.voiceService.getSelectedVoices().includes(defaultVoice)) {
+                this.voiceService.addVoice(defaultVoice);
+                this.updateVoiceOptionState(defaultVoice, true);
+            }
+            
             this.updateSelectedVoicesDisplay();
             return true;
         } catch (error) {
