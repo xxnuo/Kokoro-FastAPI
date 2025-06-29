@@ -41,7 +41,7 @@ services:
 
   # # Gradio UI service
   # ui:
-  #   image: registry.lazycat.cloud/x/lzc-aipod-kokoro-ui:latest
+  #   image: registry.lazycat.cloud/x/lzc-aipod-kokoro-ui-arm:latest
   #   ports:
   #     - "7860:7860"
   #   environment:
