@@ -13,15 +13,15 @@ RUN echo "deb https://repo.download.nvidia.com/jetson/common r36.4 main" | tee -
     echo "deb https://repo.download.nvidia.com/jetson/t234 r36.4 main" | tee -a /etc/apt/sources.list && \
     echo "deb https://repo.download.nvidia.com/jetson/ffmpeg r36.4 main" | tee -a /etc/apt/sources.list
 
-# Install Python and other dependencies
+# Install dependencies
 RUN apt-get update && apt-get install -y \
     espeak-ng \
     espeak-ng-data \
     libsndfile1 \
     ffmpeg \
- && apt-get clean && rm -rf /var/lib/apt/lists/* \
- && mkdir -p /usr/share/espeak-ng-data \
- && ln -s /usr/lib/*/espeak-ng-data/* /usr/share/espeak-ng-data/
+    && apt-get clean && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /usr/share/espeak-ng-data \
+    && ln -s /usr/lib/*/espeak-ng-data/* /usr/share/espeak-ng-data/
 
 # Install UV using the installer script
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
@@ -32,7 +32,7 @@ RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
 RUN useradd -m -u 1001 appuser && \
     mkdir -p /app/api/src/models/v1_1-zh && \
     chown -R appuser:appuser /app
-    
+
 USER appuser
 WORKDIR /app
 
