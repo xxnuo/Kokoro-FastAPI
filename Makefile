@@ -27,7 +27,7 @@ download:
 build:
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
 		docker build \
-	    -f Dockerfile \
+	    -f docker/gpu/Dockerfile \
 	    -t $(DOCKER_REGISTRY):$(VERSION) \
 	    -t $(DOCKER_REGISTRY):latest \
         --network host \
