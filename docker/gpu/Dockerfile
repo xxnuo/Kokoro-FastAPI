@@ -4,6 +4,15 @@ FROM --platform=$BUILDPLATFORM registry.lazycat.cloud/x/xtts:r36.3.0
 # Set non-interactive frontend
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Ubuntu 22.04 源
+RUN sed -i 's/ports.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
+
+# Jetson source
+RUN apt-key adv --fetch-keys https://repo.download.nvidia.com/jetson/jetson-ota-public.asc
+RUN echo "deb https://repo.download.nvidia.com/jetson/common r36.4 main" | tee -a /etc/apt/sources.list && \
+    echo "deb https://repo.download.nvidia.com/jetson/t234 r36.4 main" | tee -a /etc/apt/sources.list && \
+    echo "deb https://repo.download.nvidia.com/jetson/ffmpeg r36.4 main" | tee -a /etc/apt/sources.list
+
 # Install Python and other dependencies
 RUN apt-get update && apt-get install -y \
     python3.10 \
