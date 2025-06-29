@@ -27,7 +27,7 @@ dependencies = [
     "tiktoken==0.8.0",
     "loguru==0.7.3",
     "openai>=1.59.6",
-    "pydub>=0.25.1",
+    "pydub==0.25.1",
     "matplotlib>=3.10.0",
     "mutagen>=1.47.0",
     "psutil>=6.1.1",
@@ -40,7 +40,7 @@ dependencies = [
     "phonemizer-fork>=3.3.2",
     "av>=14.2.0",
     "text2num>=2.5.1",
-    "dowhen" # fix pydub jieba warnings
+    "dowhen" # Magic
 ]
 
 [project.optional-dependencies]
