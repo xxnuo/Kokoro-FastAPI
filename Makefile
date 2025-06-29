@@ -24,6 +24,11 @@ download:
 	mv Kokoro-82M-v1.1-zh v1_1-zh && \
 	cp -r v1_1-zh/voices ../voices/v1_1-zh
 
+
+prepare: sync-to-gpu
+	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
+		sudo apt-get install nvidia-container-toolkit"
+
 build: sync-to-gpu
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
 		docker build \
@@ -31,7 +36,6 @@ build: sync-to-gpu
 	    -t $(DOCKER_REGISTRY):$(VERSION) \
 	    -t $(DOCKER_REGISTRY):latest \
         --network host \
-		--gpus all \
         --build-arg "HTTP_PROXY=$(ENV_PROXY)" \
         --build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
         --build-arg "NO_PROXY=localhost,192.168.1.200,registry.lazycat.cloud" \
