@@ -31,7 +31,7 @@ def setup_logger():
                 "<fg #4169E1>{module}:{line}</fg #4169E1> | "
                 "{message}",
                 "colorize": True,
-                "level": "DEBUG",
+                "level": "WARNING",
             },
         ],
     }
