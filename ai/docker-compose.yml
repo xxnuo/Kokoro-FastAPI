@@ -17,7 +17,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${LZC_SERVICE_ID}-kokoro.rule=Host(`tts-ai`)"
-    image: registry.lazycat.cloud/x/lzc-aipod-kokoro:50cf3d6
+    image: registry.lazycat.cloud/x/lzc-aipod-kokoro:ef1a45f
     expose:
       - "8880"
     healthcheck:
