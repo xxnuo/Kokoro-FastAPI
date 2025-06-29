@@ -38,3 +38,6 @@ tests/
 # Docker
 Dockerfile*
 docker-compose*
+
+# Duplicate files
+models/

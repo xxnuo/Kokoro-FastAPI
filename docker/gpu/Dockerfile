@@ -45,6 +45,9 @@ RUN mkdir -p /root/.config/uv && \
 
 WORKDIR /app
 
+# Copy models
+COPY api/src/models ./api/src/models
+
 # Copy dependency files
 COPY pyproject.toml ./pyproject.toml
 
