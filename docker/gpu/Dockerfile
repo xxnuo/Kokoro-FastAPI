@@ -48,9 +48,11 @@ ENV PHONEMIZER_ESPEAK_PATH=/usr/bin \
     PHONEMIZER_ESPEAK_DATA=/usr/share/espeak-ng-data \
     ESPEAK_DATA_PATH=/usr/share/espeak-ng-data
 
+# Use the system Python environment
+ENV UV_PROJECT_ENVIRONMENT="/usr/local"
+
 # Install dependencies with GPU extras (using cache mounts)
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv venv --python 3.10 && \
     uv sync --extra gpu
 
 # Copy project files including models
@@ -63,7 +65,7 @@ RUN chmod +x ./entrypoint.sh
 # Set all environment variables in one go
 ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/app:/app/api \
-    PATH="/app/.venv/bin:$PATH" \
+    PATH="/usr/local/bin:$PATH" \
     UV_LINK_MODE=copy \
     USE_GPU=true 
 

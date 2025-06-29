@@ -46,7 +46,7 @@ dependencies = [
 gpu = [
     # "torch==2.6.0+cu124",
     # For jetson xtts
-    "torch>=2.2.0+cu122",
+    "torch>=2.2.0",
 ]
 cpu = [
     "torch==2.6.0",

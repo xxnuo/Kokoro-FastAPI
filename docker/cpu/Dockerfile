@@ -21,7 +21,7 @@ RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
 
 # Create non-root user and set up directories and permissions
 RUN useradd -m -u 1000 appuser && \
-    mkdir -p /app/api/src/models/v1_0 && \
+    mkdir -p /app/api/src/models/v1_1-zh && \
     chown -R appuser:appuser /app
 
 USER appuser
@@ -58,7 +58,7 @@ ENV PYTHONUNBUFFERED=1 \
 ENV DOWNLOAD_MODEL=true
 # Download model if enabled
 RUN if [ "$DOWNLOAD_MODEL" = "true" ]; then \
-    python download_model.py --output api/src/models/v1_0; \
+    python download_model.py --output api/src/models/v1_1-zh; \
     fi
 
 ENV DEVICE="cpu"
