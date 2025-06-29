@@ -8,13 +8,15 @@ export default class TextEditor {
         
         this.container = container;
         this.currentPage = 1;
-        this.pages = [''];
-        this.charCount = 0;
-        this.fullText = '';
+        const defaultText = "如无必要，勿增实体。\nEntities should not be multiplied unnecessarily.";
+        this.pages = [defaultText];
+        this.charCount = defaultText.length;
+        this.fullText = defaultText;
         this.isTyping = false;
         
         this.setupDOM();
         this.bindEvents();
+        this.updateCharCount();
     }
 
     setupDOM() {
@@ -31,9 +33,7 @@ export default class TextEditor {
                     <textarea
                         class="page-content"
                         placeholder="Enter text to convert to speech..."
-                        
-                    >如无必要，勿增实体。
-Entities should not be multiplied unnecessarily.</textarea>
+                    ></textarea>
                     <div class="editor-footer">
                         <div class="file-controls">
                             <input type="file" class="file-input" accept=".txt" style="display: none;">
@@ -74,6 +74,9 @@ Entities should not be multiplied unnecessarily.</textarea>
 
         // Set initial chars per page value
         this.elements.charsPerPage.value = this.options.charsPerPage;
+        
+        // Set initial text content
+        this.elements.pageContent.value = "如无必要，勿增实体。\nEntities should not be multiplied unnecessarily.";
     }
 
     bindEvents() {

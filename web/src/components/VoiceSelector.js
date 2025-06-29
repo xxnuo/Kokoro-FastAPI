@@ -153,15 +153,17 @@ export class VoiceSelector {
     async initialize() {
         try {
             await this.voiceService.loadVoices();
-            this.renderVoiceOptions(this.voiceService.getAvailableVoices());
+            
+            this.voiceService.getSelectedVoices().forEach(voice => {
+                this.voiceService.removeVoice(voice);
+            });
             
             const defaultVoice = 'zf_044';
-            if (this.voiceService.getAvailableVoices().includes(defaultVoice) && 
-                !this.voiceService.getSelectedVoices().includes(defaultVoice)) {
+            if (this.voiceService.getAvailableVoices().includes(defaultVoice)) {
                 this.voiceService.addVoice(defaultVoice);
-                this.updateVoiceOptionState(defaultVoice, true);
             }
             
+            this.renderVoiceOptions(this.voiceService.getAvailableVoices());
             this.updateSelectedVoicesDisplay();
             return true;
         } catch (error) {
