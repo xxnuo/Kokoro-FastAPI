@@ -1,6 +1,6 @@
 name: 语音合成引擎
 package: cloud.lazycat.aipod.tts
-version: 1.0.1
+version: 1.0.2
 description: 支持多种语言的快速语音合成引擎
 license: https://choosealicense.com/licenses/mit/
 homepage:
