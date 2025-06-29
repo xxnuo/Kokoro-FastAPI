@@ -24,25 +24,7 @@ download:
 	mv Kokoro-82M-v1.1-zh v1_1-zh && \
 	cp -r v1_1-zh/voices ../voices/v1_1-zh
 
-dev: sync-to-gpu
-	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
-		export HTTP_PROXY=$(ENV_PROXY) && \
-		export HTTPS_PROXY=$(ENV_PROXY) && \
-		export ALL_PROXY=$(ENV_PROXY) && \
-		export NO_PROXY=localhost,192.168.1.200,registry.lazycat.cloud && \
-		$(UV) run python indextts/infer.py"
-
-compile: sync-to-gpu
-	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
-		export HTTP_PROXY=$(ENV_PROXY) && \
-		export HTTPS_PROXY=$(ENV_PROXY) && \
-		export ALL_PROXY=$(ENV_PROXY) && \
-		export NO_PROXY=localhost,192.168.1.200,registry.lazycat.cloud && \
-		echo $(UV) run py2so.py -d webui && \
-		$(UV) pip compile --no-deps pyproject.toml -o requirements-pypi.txt"
-	$(MAKE) sync-from-gpu
-
-build: compile
+build:
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
 		docker build \
 	    -f Dockerfile \
@@ -89,4 +71,4 @@ lzc-install-gpu:
 lzc-pre-publish: lzc-build
 	@echo 'lzc-cli appstore pre-publish --file changelog.md -G 9999 dist/'
 
-.PHONY: build install lzc-build lzc-install lzc-install-gpu lzc-pre-publish sync-from-gpu sync-to-gpu sync-clean download compile test test2 push lzc-build lzc-install lzc-install-gpu lzc-pre-publish
+.PHONY: build install lzc-build lzc-install lzc-install-gpu lzc-pre-publish sync-from-gpu sync-to-gpu sync-clean download test push lzc-build lzc-install lzc-install-gpu lzc-pre-publish
