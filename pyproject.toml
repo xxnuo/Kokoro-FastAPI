@@ -44,7 +44,9 @@ dependencies = [
 
 [project.optional-dependencies]
 gpu = [
-    "torch==2.6.0+cu124",
+    # "torch==2.6.0+cu124",
+    # For jetson xtts
+    "torch>=2.2.0+cu122",
 ]
 cpu = [
     "torch==2.6.0",
@@ -79,7 +81,7 @@ explicit = true
 
 [[tool.uv.index]]
 name = "pytorch-cuda"
-url = "https://download.pytorch.org/whl/cu124"
+url = "https://download.pytorch.org/whl/cu122"
 explicit = true
 
 [build-system]

@@ -2,7 +2,7 @@ VERSION := $(shell git rev-parse --short HEAD)
 UV := ~/.local/bin/uv
 CURL := $(shell if command -v axel >/dev/null 2>&1; then echo "axel"; else echo "curl"; fi)
 REMOTE := nvidia@gpu
-REMOTE_PATH := ~/work/lzc-aipod-kokoro
+REMOTE_PATH := ~/projects/work/lzc-aipod-kokoro
 DOCKER_REGISTRY := registry.lazycat.cloud/x/lzc-aipod-kokoro
 DOCKER_NAME := lzc-aipod-kokoro
 ENV_PROXY := http://192.168.1.200:7890
@@ -17,21 +17,12 @@ sync-to-gpu:
 sync-clean:
 	ssh -t $(REMOTE) "rm -rf $(REMOTE_PATH)"
 
-prepare:
-	git submodule update --init --recursive
-	uv sync --all-groups
-	uv pip compile --no-deps pyproject.toml -o requirements-pypi.txt
-
 download:
-	mkdir -p models
-	source .venv/bin/activate && \
-	MODELSCOPE_CACHE=./ \
-	HF_ENDPOINT=https://hf-mirror.com \
-	python3 -c "from modelscope import snapshot_download; \
-		snapshot_download('iic/CosyVoice2-0.5B', local_dir='models/iic/CosyVoice2-0.5B'); \
-		from wetext import Normalizer; \
-		normalizer = Normalizer(); \
-		print(normalizer.normalize('你好 wetext，全新版本儿，全新体验儿，简直666'))"
+	git lfs install
+	cd api/src/models && \
+	git clone https://huggingface.co/hexgrad/Kokoro-82M-v1.1-zh && \
+	mv Kokoro-82M-v1.1-zh v1_1-zh && \
+	cp -r v1_1-zh/voices ../voices/v1_1-zh
 
 dev: sync-to-gpu
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
