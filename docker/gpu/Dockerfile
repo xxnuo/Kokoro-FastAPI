@@ -15,15 +15,10 @@ RUN echo "deb https://repo.download.nvidia.com/jetson/common r36.4 main" | tee -
 
 # Install Python and other dependencies
 RUN apt-get update && apt-get install -y \
-    python3.10 \
-    python3-venv \
     espeak-ng \
     espeak-ng-data \
-    git \
     libsndfile1 \
-    curl \
     ffmpeg \
-    g++ \
  && apt-get clean && rm -rf /var/lib/apt/lists/* \
  && mkdir -p /usr/share/espeak-ng-data \
  && ln -s /usr/lib/*/espeak-ng-data/* /usr/share/espeak-ng-data/

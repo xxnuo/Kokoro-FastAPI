@@ -24,19 +24,20 @@ download:
 	mv Kokoro-82M-v1.1-zh v1_1-zh && \
 	cp -r v1_1-zh/voices ../voices/v1_1-zh
 
-build:
+build: sync-to-gpu
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
 		docker build \
 	    -f docker/gpu/Dockerfile \
 	    -t $(DOCKER_REGISTRY):$(VERSION) \
 	    -t $(DOCKER_REGISTRY):latest \
         --network host \
+		--gpus all \
         --build-arg "HTTP_PROXY=$(ENV_PROXY)" \
         --build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
         --build-arg "NO_PROXY=localhost,192.168.1.200,registry.lazycat.cloud" \
 		."
 
-build-ui-arm:
+build-ui-arm: sync-to-gpu
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
 		docker build \
 	    -f ui/Dockerfile \
