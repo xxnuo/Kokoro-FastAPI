@@ -27,7 +27,7 @@ class Settings(BaseSettings):
 
     # Model Settings
     repo_id: str = "hexgrad/Kokoro-82M-v1.1-zh"
-    kokoro_file: str = "v1_1/kokoro-v1_1-zh.pth"
+    kokoro_file: str = "v1_1-zh/kokoro-v1_1-zh.pth"
 
     # Container absolute paths
     model_dir: str = "/app/api/src/models"  # Absolute path in container
