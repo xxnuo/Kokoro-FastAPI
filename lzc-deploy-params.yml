@@ -1,0 +1,12 @@
+params:
+  - id: check_has_aipod
+    type: bool
+    name: "check"
+    description: "this application needs to be used in conjunction with AI Pod"
+    default_value: true
+
+locales:
+  zh:
+    check_has_aipod:
+      name: "确认"
+      description: "这个应用需要结合算力舱使用"
