@@ -23,8 +23,6 @@ locales:
     description: "複数の言語をサポートするテキストから音声への変換エンジン"
 application:
   subdomain: tts
-  application:
-    gpu_accel: true
   routes:
       - /=http://caddy:80
   health_check:
