@@ -32,7 +32,7 @@ RUN mkdir -p /usr/share/espeak-ng-data && \
     ln -s /usr/lib/*/espeak-ng-data/* /usr/share/espeak-ng-data/
 
 # Install UV using the installer script
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
+RUN curl -LsSfk https://astral.sh/uv/install.sh | sh && \
     mv /root/.local/bin/uv /usr/local/bin/ && \
     mv /root/.local/bin/uvx /usr/local/bin/ 
 

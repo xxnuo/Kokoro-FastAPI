@@ -37,6 +37,7 @@ build: sync-to-gpu
         --network host \
         --build-arg "HTTP_PROXY=$(ENV_PROXY)" \
         --build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
+        --build-arg "ALL_PROXY=$(ENV_PROXY)" \
         --build-arg "NO_PROXY=localhost,wa.lan,registry.lazycat.cloud" \
 		--shm-size=8g \
 		."
