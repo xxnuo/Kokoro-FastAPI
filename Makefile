@@ -2,10 +2,10 @@ VERSION := $(shell git rev-parse --short HEAD)
 UV := ~/.local/bin/uv
 CURL := $(shell if command -v axel >/dev/null 2>&1; then echo "axel"; else echo "curl"; fi)
 REMOTE := nvidia@gpu
-REMOTE_PATH := ~/projects/work/lzc-aipod-kokoro
-DOCKER_REGISTRY := registry.lazycat.cloud/x/lzc-aipod-kokoro
-DOCKER_NAME := lzc-aipod-kokoro
-ENV_PROXY := http://192.168.1.200:7890
+REMOTE_PATH := ~/projects/work/lzc-aipod-tts
+DOCKER_REGISTRY := registry.lazycat.cloud/x/lzc-aipod-tts
+DOCKER_NAME := lzc-aipod-tts
+ENV_PROXY := http://wa.lan:7890
 
 sync-from-gpu:
 	rsync -arvzlt --delete --exclude-from=.rsyncignore $(REMOTE):$(REMOTE_PATH)/ ./
@@ -24,7 +24,6 @@ download:
 	mv Kokoro-82M-v1.1-zh v1_1-zh && \
 	cp -r v1_1-zh/voices ../voices/v1_1-zh
 
-
 prepare: sync-to-gpu
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
 		sudo apt-get install nvidia-container-toolkit"
@@ -38,7 +37,7 @@ build: sync-to-gpu
         --network host \
         --build-arg "HTTP_PROXY=$(ENV_PROXY)" \
         --build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
-        --build-arg "NO_PROXY=localhost,192.168.1.200,registry.lazycat.cloud" \
+        --build-arg "NO_PROXY=localhost,wa.lan,registry.lazycat.cloud" \
 		--shm-size=8g \
 		."
 
@@ -51,7 +50,7 @@ build-ui-arm: sync-to-gpu
         --network host \
         --build-arg "HTTP_PROXY=$(ENV_PROXY)" \
         --build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
-        --build-arg "NO_PROXY=localhost,192.168.1.200,registry.lazycat.cloud" \
+        --build-arg "NO_PROXY=localhost,wa.lan,registry.lazycat.cloud" \
 		."
 
 build-ui-amd:
@@ -62,14 +61,14 @@ build-ui-amd:
         --network host \
         --build-arg "HTTP_PROXY=$(ENV_PROXY)" \
         --build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
-        --build-arg "NO_PROXY=localhost,192.168.1.200,registry.lazycat.cloud" \
+        --build-arg "NO_PROXY=localhost,wa.lan,registry.lazycat.cloud" \
 		.
 
 test: build
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
 		docker run -it --rm \
 		--gpus all \
-		--name lzc-aipod-kokoro \
+		--name $(DOCKER_NAME) \
 		--network host \
 		--shm-size=8g \
 		$(DOCKER_REGISTRY):$(VERSION)"
@@ -78,7 +77,7 @@ inspect: build
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
 		docker run -it --rm \
 		--gpus all \
-		--name lzc-aipod-kokoro \
+		--name $(DOCKER_NAME) \
 		--network host \
 		--shm-size=8g \
 		$(DOCKER_REGISTRY):$(VERSION) bash"
@@ -106,8 +105,8 @@ lzc-install: lzc-build
 
 lzc-install-gpu:
 	rsync -arvzlt ./ai/docker-compose.yml $(REMOTE):~/docker-compose.yml.new
-	ssh -t $(REMOTE) "mkdir -p /ssd/lzc-ai-agent/services/cloud.lazycat.aipod.kokoro && \
-		cd /ssd/lzc-ai-agent/services/cloud.lazycat.aipod.kokoro && \
+	ssh -t $(REMOTE) "mkdir -p /ssd/lzc-ai-agent/services/cloud.lazycat.aipod.tts && \
+		cd /ssd/lzc-ai-agent/services/cloud.lazycat.aipod.tts && \
 		sudo mv ~/docker-compose.yml.new docker-compose.yml &&\
 		sudo docker-compose down &&\
 		sudo docker-compose up -d &&\
