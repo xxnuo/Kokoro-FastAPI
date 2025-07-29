@@ -295,6 +295,7 @@ class KokoroV1(BaseModelBackend):
                             f"Processing chunk timestamps with {len(result.tokens)} tokens"
                         )
                         if result.pred_dur is not None:
+                            previous_end_time = 0.0
                             try:
                                 # Add timestamps with offset
                                 for token in result.tokens:
@@ -311,6 +312,15 @@ class KokoroV1(BaseModelBackend):
                                     # token.start_ts may be None
                                     if not token.text or not token.text.strip() or token.start_ts is None or token.end_ts is None:
                                         continue
+
+                                    if token.start_ts is None:
+                                        start_time = previous_end_time
+                                        end_time = start_time
+                                        logger.debug(f"Missing timestamp for word '{token.text}'")
+                                    else:
+                                        start_time = float(token.start_ts) + current_offset
+                                        end_time = float(token.end_ts) + current_offset
+                                        previous_end_time = end_time
 
                                     start_time = float(token.start_ts) + current_offset
                                     end_time = float(token.end_ts) + current_offset
