@@ -308,9 +308,7 @@ class KokoroV1(BaseModelBackend):
                                         ]
                                     ):
                                         continue
-
-                                    # token.start_ts may be None
-                                    if not token.text or not token.text.strip() or token.start_ts is None or token.end_ts is None:
+                                    if not token.text or not token.text.strip():
                                         continue
 
                                     if token.start_ts is None:
