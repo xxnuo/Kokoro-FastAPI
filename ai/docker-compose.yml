@@ -16,8 +16,8 @@ services:
     <<: *default-logging
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.${LZC_SERVICE_ID}-kokoro.rule=Host(`tts-ai`)"
-    image: registry.lazycat.cloud/x/lzc-aipod-kokoro:f64af81
+      - "traefik.http.routers.${LZC_SERVICE_ID}-tts.rule=Host(`tts-ai`)"
+    image: registry.lazycat.cloud/x/lzc-aipod-tts:f64af81
     expose:
       - "8880"
     healthcheck:

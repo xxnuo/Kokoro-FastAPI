@@ -109,7 +109,6 @@ lzc-install-gpu:
 	ssh -t $(REMOTE) "mkdir -p /ssd/lzc-ai-agent/services/cloud.lazycat.aipod.tts && \
 		cd /ssd/lzc-ai-agent/services/cloud.lazycat.aipod.tts && \
 		sudo mv ~/docker-compose.yml.new docker-compose.yml &&\
-		sudo docker-compose down &&\
 		sudo docker-compose up -d &&\
 		sudo docker-compose logs -f"
 
