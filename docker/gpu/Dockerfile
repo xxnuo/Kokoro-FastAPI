@@ -86,7 +86,7 @@ RUN if [ "$DOWNLOAD_MODEL" = "true" ]; then \
     fi
 
 ENV DEVICE="gpu"
-ENV PYTHONFAULTHANDLER=1
+ENV PYTHONUNBUFFERED=1
 
 # Run FastAPI server through entrypoint.sh
 CMD ["./entrypoint.sh"]
