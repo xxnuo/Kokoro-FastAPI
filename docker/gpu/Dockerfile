@@ -39,7 +39,7 @@ RUN curl -LsSfk https://astral.sh/uv/install.sh | sh && \
 RUN mkdir -p /root/.config/uv && \
     printf '%s\n' \
     '[[index]]' \
-    'url = "http://192.168.1.239:10608/simple"' \
+    'url = "http://lzc-pod-APhKhy.lan:10608/simple"' \
     'default = true' \
     > /root/.config/uv/uv.toml
 
@@ -67,7 +67,8 @@ ENV PYTHONUNBUFFERED=1 \
 
 # Install dependencies with GPU extras (using cache mounts)
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --no-install-project --inexact --extra gpu
+    uv sync --no-install-project --inexact
+# --extra gpu
 
 # Copy project files including models
 COPY api ./api
@@ -77,7 +78,8 @@ RUN chmod +x ./entrypoint.sh
 
 # Install project
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --inexact --extra gpu
+    uv sync --inexact
+# --extra gpu
 
 ENV DOWNLOAD_MODEL=false
 # Download model if enabled
