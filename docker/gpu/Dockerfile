@@ -41,6 +41,8 @@ RUN mkdir -p /root/.config/uv && \
     '[[index]]' \
     'url = "http://lzc-pod-APhKhy.lan:10608/simple"' \
     'default = true' \
+    '[pip]' \
+    'system = true' \
     > /root/.config/uv/uv.toml
 
 WORKDIR /app

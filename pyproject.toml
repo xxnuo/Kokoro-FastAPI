@@ -44,10 +44,10 @@ dependencies = [
 
 [project.optional-dependencies]
 gpu = [
-    "torch==2.7.1+cu128",
+    "torch",
 ]
 cpu = [
-    "torch==2.7.1",
+    "torch",
 ]
 test = [
     "pytest==8.3.5",
@@ -57,6 +57,9 @@ test = [
     "tomli>=2.0.1",
     "jinja2>=3.1.6"
 ]
+
+[tool.uv.pip]
+system = true
 
 [tool.uv]
 conflicts = [
@@ -79,7 +82,7 @@ explicit = true
 
 [[tool.uv.index]]
 name = "pytorch-cuda"
-url = "https://download.pytorch.org/whl/cu128"
+url = "http://lzc-pod-APhKhy.lan:10608/simple"
 explicit = true
 
 [build-system]
