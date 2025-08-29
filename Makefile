@@ -8,7 +8,7 @@ REMOTE_PATH := ~/projects/work/lzc-aipod-tts
 DOCKER_REGISTRY := registry.lazycat.cloud/x/lzc-aipod-tts
 DOCKER_NAME := lzc-aipod-tts
 ENV_PROXY := http://wa.lan:7890
-ENV_NOPROXY := localhost,wa.lan,lzc-pod-APhKhy.lan,registry.lazycat.cloud
+ENV_NOPROXY := localhost,wa.lan,lzc-pod-APhKhy.lan,registry.lazycat.cloud,127.0.0.1
 
 sync-from-gpu:
 	rsync -arvzlt --delete --exclude-from=.rsyncignore $(REMOTE):$(REMOTE_PATH)/ ./
@@ -50,6 +50,7 @@ build: sync-to-gpu
 		--network host \
 		--build-arg "HTTP_PROXY=$(ENV_PROXY)" \
 		--build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
+		--build-arg "ALL_PROXY=$(ENV_PROXY)" \
 		--build-arg "NO_PROXY=$(ENV_NOPROXY)" \
 		--shm-size=8g \
 		."
