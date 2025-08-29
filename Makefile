@@ -22,14 +22,24 @@ sync-clean:
 
 download:
 	git lfs install
-	cd api/src/models && \
-	git clone https://huggingface.co/hexgrad/Kokoro-82M-v1.1-zh && \
-	mv Kokoro-82M-v1.1-zh v1_1-zh && \
-	cp -r v1_1-zh/voices ../voices/v1_1-zh
+	if [ ! -d "Kokoro-82M-v1.1-zh" ]; then \
+		git clone https://huggingface.co/hexgrad/Kokoro-82M-v1.1-zh; \
+	else \
+		cd Kokoro-82M-v1.1-zh && git pull; \
+	fi
+	if [ ! -d "Kokoro-82M" ]; then \
+		git clone https://huggingface.co/hexgrad/Kokoro-82M; \
+	else \
+		cd Kokoro-82M && git pull; \
+	fi
 
-prepare: sync-to-gpu
-	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
-		sudo apt-get install nvidia-container-toolkit"
+prepare:
+	mkdir -p api/src/voices/v1_1-zh
+	cp Kokoro-82M-v1.1-zh/voices/*.pt api/src/voices/v1_1-zh/
+	cp Kokoro-82M/voices/*.pt api/src/voices/v1_1-zh/
+	mkdir -p api/src/models/v1_1-zh
+	cp Kokoro-82M-v1.1-zh/kokoro-v1_1-zh.pth api/src/models/v1_1-zh/kokoro-v1_1-zh.pth
+	cp Kokoro-82M-v1.1-zh/config.json api/src/models/v1_1-zh/config.json
 
 build: sync-to-gpu
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
