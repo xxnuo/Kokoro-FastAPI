@@ -44,6 +44,7 @@ prepare:
 build: sync-to-gpu
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
 		docker build \
+		--progress=plain \
 		-f docker/gpu/Dockerfile \
 		-t $(DOCKER_REGISTRY):$(VERSION) \
 		-t $(DOCKER_REGISTRY):latest \
