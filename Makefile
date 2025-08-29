@@ -1,3 +1,5 @@
+.PHONY: build download install lzc-build lzc-install lzc-install-gpu lzc-pre-publish push sync-clean sync-from-gpu sync-to-gpu test
+
 VERSION := $(shell git rev-parse --short HEAD)
 UV := ~/.local/bin/uv
 CURL := $(shell if command -v axel >/dev/null 2>&1; then echo "axel"; else echo "curl"; fi)
@@ -6,6 +8,7 @@ REMOTE_PATH := ~/projects/work/lzc-aipod-tts
 DOCKER_REGISTRY := registry.lazycat.cloud/x/lzc-aipod-tts
 DOCKER_NAME := lzc-aipod-tts
 ENV_PROXY := http://wa.lan:7890
+ENV_NOPROXY := localhost,wa.lan,lzc-pod-APhKhy.lan,registry.lazycat.cloud
 
 sync-from-gpu:
 	rsync -arvzlt --delete --exclude-from=.rsyncignore $(REMOTE):$(REMOTE_PATH)/ ./
@@ -31,38 +34,37 @@ prepare: sync-to-gpu
 build: sync-to-gpu
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
 		docker build \
-	    -f docker/gpu/Dockerfile \
-	    -t $(DOCKER_REGISTRY):$(VERSION) \
-	    -t $(DOCKER_REGISTRY):latest \
-        --network host \
-        --build-arg "HTTP_PROXY=$(ENV_PROXY)" \
-        --build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
-        --build-arg "ALL_PROXY=$(ENV_PROXY)" \
-        --build-arg "NO_PROXY=localhost,wa.lan,registry.lazycat.cloud" \
+		-f docker/gpu/Dockerfile \
+		-t $(DOCKER_REGISTRY):$(VERSION) \
+		-t $(DOCKER_REGISTRY):latest \
+		--network host \
+		--build-arg "HTTP_PROXY=$(ENV_PROXY)" \
+		--build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
+		--build-arg "NO_PROXY=$(ENV_NOPROXY)" \
 		--shm-size=8g \
 		."
 
 build-ui-arm: sync-to-gpu
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
 		docker build \
-	    -f ui/Dockerfile \
-	    -t $(DOCKER_REGISTRY)-ui-arm:$(VERSION) \
-	    -t $(DOCKER_REGISTRY)-ui-arm:latest \
-        --network host \
-        --build-arg "HTTP_PROXY=$(ENV_PROXY)" \
-        --build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
-        --build-arg "NO_PROXY=localhost,wa.lan,registry.lazycat.cloud" \
+		-f ui/Dockerfile \
+		-t $(DOCKER_REGISTRY)-ui-arm:$(VERSION) \
+		-t $(DOCKER_REGISTRY)-ui-arm:latest \
+		--network host \
+		--build-arg "HTTP_PROXY=$(ENV_PROXY)" \
+		--build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
+		--build-arg "NO_PROXY=$(ENV_NOPROXY)" \
 		."
 
 build-ui-amd:
 	docker build \
-	    -f ui/Dockerfile \
-	    -t $(DOCKER_REGISTRY)-ui-amd:$(VERSION) \
-	    -t $(DOCKER_REGISTRY)-ui-amd:latest \
-        --network host \
-        --build-arg "HTTP_PROXY=$(ENV_PROXY)" \
-        --build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
-        --build-arg "NO_PROXY=localhost,wa.lan,registry.lazycat.cloud" \
+		-f ui/Dockerfile \
+		-t $(DOCKER_REGISTRY)-ui-amd:$(VERSION) \
+		-t $(DOCKER_REGISTRY)-ui-amd:latest \
+		--network host \
+		--build-arg "HTTP_PROXY=$(ENV_PROXY)" \
+		--build-arg "HTTPS_PROXY=$(ENV_PROXY)" \
+		--build-arg "NO_PROXY=$(ENV_NOPROXY)" \
 		.
 
 test: build
@@ -86,16 +88,16 @@ inspect: build
 push: build
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
 		docker push $(DOCKER_REGISTRY):$(VERSION) && \
-		docker push $(DOCKER_REGISTRY):latest"
+		echo docker push $(DOCKER_REGISTRY):latest"
 
 push-ui-arm: build-ui-arm
 	ssh -t $(REMOTE) "cd $(REMOTE_PATH) && \
 		docker push $(DOCKER_REGISTRY)-ui-arm:$(VERSION) && \
-		docker push $(DOCKER_REGISTRY)-ui-arm:latest"
+		echo docker push $(DOCKER_REGISTRY)-ui-arm:latest"
 
 push-ui-amd: build-ui-amd
 	docker push $(DOCKER_REGISTRY)-ui-amd:$(VERSION) && \
-	docker push $(DOCKER_REGISTRY)-ui-amd:latest
+	echo docker push $(DOCKER_REGISTRY)-ui-amd:latest"
 
 lzc-build:
 	mkdir -p dist
@@ -108,11 +110,9 @@ lzc-install-gpu:
 	rsync -arvzlt ./ai/docker-compose.yml $(REMOTE):~/docker-compose.yml.new
 	ssh -t $(REMOTE) "mkdir -p /ssd/lzc-ai-agent/services/cloud.lazycat.aipod.tts && \
 		cd /ssd/lzc-ai-agent/services/cloud.lazycat.aipod.tts && \
-		sudo mv ~/docker-compose.yml.new docker-compose.yml &&\
-		sudo docker-compose up -d &&\
+		sudo mv ~/docker-compose.yml.new docker-compose.yml && \
+		sudo docker-compose up -d && \
 		sudo docker-compose logs -f"
 
 lzc-pre-publish: lzc-build
 	@echo 'lzc-cli appstore pre-publish --file changelog.md -G 9999 dist/'
-
-.PHONY: build install lzc-build lzc-install lzc-install-gpu lzc-pre-publish sync-from-gpu sync-to-gpu sync-clean download test push lzc-build lzc-install lzc-install-gpu lzc-pre-publish
